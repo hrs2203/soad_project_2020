@@ -25,3 +25,9 @@ sudo apt-get -y install postgresql
 
 2. Setup Psql on local machine ( For Ubuntu Only ) (
 [Link to Website](https://djangocentral.com/using-postgresql-with-django/) )
+
+3. DbConfig
+
+```
+CREATE USER soad_user WITH ENCRYPTED PASSWORD 'soad_password_123';
+```
