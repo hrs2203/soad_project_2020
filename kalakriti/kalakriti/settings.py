@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "customer_block",
+    "image_model",
+    "rest_service",
 ]
 
 MIDDLEWARE = [
@@ -55,9 +58,7 @@ ROOT_URLCONF = "kalakriti.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR, 'customer_block', 'template')
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "customer_block", "template")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -84,13 +85,13 @@ WSGI_APPLICATION = "kalakriti.wsgi.application"
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'soad',
-        'USER': 'soad_user',
-        'PASSWORD': 'soad_password_123',
-        'HOST': 'localhost',
-        'PORT': '',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "soad",
+        "USER": "soad_user",
+        "PASSWORD": "soad_password_123",
+        "HOST": "localhost",
+        "PORT": "",
     }
 }
 
@@ -126,7 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'customer_block', 'template')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "customer_block", "template")]
+
