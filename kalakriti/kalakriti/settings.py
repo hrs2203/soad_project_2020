@@ -55,7 +55,9 @@ ROOT_URLCONF = "kalakriti.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, 'customer_block', 'template')
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
