@@ -12,4 +12,5 @@ urlpatterns = [
     path('business', v.business_page, name="business_page"),
     path('make_choice', v.choice_page, name="choice_page"),
     path('make_payment', v.payment_page, name="payment_page"),
+    path('upload_product', v.upload_custom_product, name="upload_custom_product"),
 ]

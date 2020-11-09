@@ -8,8 +8,11 @@ from customer_block.forms import (
     user_signup_form,
     business_signup_form,
 )
+from customer_block.models import CustomerModel, BusinessModel, OrderModel
 
-# Create your views here.
+from image_model.models import Product
+from image_model.forms import upload_product_form
+
 def home_page(request):
     return render(request=request, template_name="homepage.html", context={})
 
@@ -100,3 +103,8 @@ def choice_page(request):
 def payment_page(request):
     return render(request=request, template_name="make_payment.html", context={})
 
+def upload_custom_product(request):
+    context = {}
+    form = upload_product_form()
+    context["form"] = form
+    return render(request=request, template_name="upload_product.html", context=context)

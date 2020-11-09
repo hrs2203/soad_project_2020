@@ -5,3 +5,6 @@ from django.http import JsonResponse
 def sampleResponse(request):
     return JsonResponse({"model": "sample response"})
 
+# TODO: Make this happen
+def uploadProduct(request):
+    return JsonResponse({"model": "sample response"})
