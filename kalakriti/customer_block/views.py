@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User, AnonymousUser
-from customer_block.forms import user_login_form, business_login_form
+from customer_block.forms import (
+    user_login_form,
+    business_login_form,
+    user_signup_form,
+    business_signup_form,
+)
 
 # Create your views here.
 def home_page(request):
@@ -65,11 +70,19 @@ def logout_page(request):
 
 
 def signup_user_page(request):
-    return render(request=request, template_name="signup_user.html", context={})
+    context = {}
+    form = user_signup_form()
+    context["form"] = form
+    return render(request=request, template_name="signup_user.html", context=context)
 
 
 def signup_business_page(request):
-    return render(request=request, template_name="signup_business.html", context={})
+    context = {}
+    form = business_signup_form()
+    context["form"] = form
+    return render(
+        request=request, template_name="signup_business.html", context=context
+    )
 
 
 def user_page(request):

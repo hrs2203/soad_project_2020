@@ -7,6 +7,6 @@ DEFAULT_DESCRIPTION = "Product Default Description"
 class Product(models.Model):
     """ Product model """
     ProductName = models.CharField(max_length=20)
-    ProductUrl = models.CharField(max_length=50)
+    ProductUrl = models.CharField(max_length=50, unique=True)
     ProductDescription = models.CharField(max_length=50, default=DEFAULT_DESCRIPTION)
     ProductPrice = models.IntegerField(default=30)
