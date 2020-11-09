@@ -128,5 +128,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "customer_block", "template")]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "customer_block", "template"),
+    os.path.join(BASE_DIR, "image_model", "images"),
+]
 
