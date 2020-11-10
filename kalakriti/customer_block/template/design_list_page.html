@@ -16,39 +16,74 @@
 
 {% block content %}
 
-<div class="p-5 w-75">
-    {% for prod in productList %}
-    <div class="card bg-white shadow mt-3 mb-5">
-        <div class="card-header">
-            <h3> {{ prod.ProductName }} </h3>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-3">
-                    <img src="{{ prod.ProductUrl }}" alt="{{ prod.ProductName }}">
+<div class="pl-2 pt-2">
+    <div class="row">
+        <div class="col">
+            {% for prod in productList %}
+            <div class="card bg-white shadow mt-3 mb-5">
+                <div class="card-header">
+                    <h3> {{ prod.ProductName }} </h3>
                 </div>
-                <div class="col">
-                    <table class="table table-striped" >
-                        <tr>
-                            <td>Product Name : </td>
-                            <td>{{ prod.ProductName }}</td>
-                        </tr>
-                        <tr>
-                            <td>Product Price : </td>
-                            <td>{{ prod.ProductPrice }}</td>
-                        </tr>
-                        <tr>
-                            <td>Product Description : </td>
-                            <td>{{ prod.ProductDescription }}</td>
-                        </tr>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="{{ prod.ProductUrl }}" alt="{{ prod.ProductName }}">
+                        </div>
+                        <div class="col">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Product Name : </td>
+                                    <td>{{ prod.ProductName }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Product Price : </td>
+                                    <td>{{ prod.ProductPrice }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Product Description : </td>
+                                    <td>{{ prod.ProductDescription }}</td>
+                                </tr>
 
-                    </table>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
-
             </div>
+            {% endfor %}
+        </div>
+
+        <div class="col">
+            {% for dealer in dealerList %}
+            <div class="card bg-white shadow mt-3 mb-5">
+                <div class="card-header">
+                    <h3> {{ dealer.userModel.username }} </h3>
+                </div>
+                <div class="card-body">
+                    <div class="col">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Dealer Name : </td>
+                                <td>{{ dealer.userModel.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dealer Price : </td>
+                                <td>{{ dealer.serviceCharge }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dealer Description : </td>
+                                <td>{{ dealer.businessDescription }}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
         </div>
     </div>
-    {% endfor %}
+
 </div>
 
 {% endblock %}

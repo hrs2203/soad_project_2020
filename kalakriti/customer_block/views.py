@@ -187,9 +187,11 @@ def choice_page(request):
     context = dict()
 
     context["productList"] = Product.objects.all()[::-1]
-    # context["productList"] = context["productList"]
+    context["dealerList"] = BusinessModel.objects.all()
 
-    return render(request=request, template_name="design_list_page.html", context=context)
+    return render(
+        request=request, template_name="design_list_page.html", context=context
+    )
 
 
 def payment_page(request):
