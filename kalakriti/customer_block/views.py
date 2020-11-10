@@ -9,7 +9,7 @@ from customer_block.forms import (
     business_signup_form,
 )
 from customer_block.models import CustomerModel, BusinessModel, OrderModel
-import os
+import os, random, string
 from pathlib import Path
 from image_model.models import Product
 from image_model.forms import upload_product_form
@@ -184,11 +184,42 @@ def business_page(request):
 
 
 def choice_page(request):
-    return render(request=request, template_name="design_list_page.html", context={})
+    context = dict()
+
+    context["productList"] = Product.objects.all()[::-1]
+    # context["productList"] = context["productList"]
+
+    return render(request=request, template_name="design_list_page.html", context=context)
 
 
 def payment_page(request):
     return render(request=request, template_name="make_payment.html", context={})
+
+
+def genRandomName(fileName):
+    """Generate unique Name for images
+
+    Args:
+        fileName (str): fileName to get its extention
+
+    Returns:
+        str: unique file name
+    """
+    fileExt = fileName.split(".")[-1]
+    randName = "".join([random.choice(string.ascii_lowercase) for i in range(20)])
+    resp = f"{randName}.{fileExt}"
+
+    BASE_FILE = Path(__file__).resolve().parent.parent
+    FILE_PATH = os.path.join(BASE_FILE, "image_model", "images", resp)
+
+    while os.path.isfile(FILE_PATH):
+        randName = "".join([random.choice(string.ascii_lowercase) for i in range(20)])
+        resp = f"{randName}.{fileExt}"
+
+        BASE_FILE = Path(__file__).resolve().parent.parent
+        FILE_PATH = os.path.join(BASE_FILE, "image_model", "images", resp)
+
+    return resp
 
 
 def upload_custom_product(request):
@@ -202,14 +233,20 @@ def upload_custom_product(request):
     context = {}
 
     if request.method == "POST":
-        # BASE_FILE = Path(__file__).resolve().parent.parent
-        # IMAGE_STORE = os.path.join(BASE_FILE, "image_model", "images")
-        
         form = upload_product_form(request.POST, request.FILES)
         if form.is_valid:
-            
+
             temp_file = request.FILES["ProductImage"]
-            file_name = default_storage.save(temp_file.name, temp_file)
+            tempFileName = genRandomName(temp_file.name)
+            file_name = default_storage.save(tempFileName, temp_file)
+
+            tempProduct = Product(
+                ProductName=request.POST["ProductName"],
+                ProductUrl=f"/static/{tempFileName}",
+                ProductDescription=request.POST["ProductDescription"],
+                ProductPrice=request.POST["ProductPrice"],
+            )
+            tempProduct.save()
 
         return redirect("/make_choice")
 

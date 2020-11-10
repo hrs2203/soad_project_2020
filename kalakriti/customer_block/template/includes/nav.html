@@ -13,8 +13,15 @@
 
       {% if user.is_staff %}
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'business_page' %}">Your Page</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'upload_custom_product' %}">Upload New Product</a>
         </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_page' %}">Your Page</a>
+        </li>  
       {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'choice_page' %}">Explore Market For Products</a>
