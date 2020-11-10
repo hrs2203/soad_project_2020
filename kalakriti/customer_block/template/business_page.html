@@ -5,7 +5,6 @@
 {% block customStyle %}
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/homeloader_user.css' %}">
 
 <style>
     section {
@@ -14,7 +13,6 @@
     }
 
     body {
-        background-image: url('./sample/samp5.jpg');
         /* background-color: #523b7f; */
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -77,10 +75,10 @@
             <img src="{% static 'images/profile.jpeg'%}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">Business Detail</h5>
-                <p class="card-text">General Intro to Business Detail.</p>
+                <p class="card-text">General Intro to {{ request.user.username }}</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Current balance : {{ balance }}</li>
+                <li class="list-group-item">Current balance : {{ businessDetail.balance }}</li>
             </ul>
         </div>
     </div>
@@ -90,33 +88,9 @@
                 <h3> Company Detail </h3>
             </div>
             <div class="card-body">
-                {% if my_shares_list %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Company</th>
-                            <th>Shares Count</th>
-                            <th>Shares on Sale</th>
-                            <th>Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for share in my_shares_list %}
-                        <tr>
-                            <td>
-                                <a class="nav-item"
-                                    href="{% url 'company_page' share.company.id %}">{{ share.company.company_name }}</a>
-                            </td>
-                            <td>{{ share.shares_count }}</td>
-                            <td>{{ share.shares_sale }}</td>
-                            <td>₹ {{ share.company.selling_price }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No Shares owned</p>
-                {% endif %}
+                <p>Business Description : {{ businessDetail.businessDescription }}</p>
+                <p>Business Service Charge : {{ businessDetail.serviceCharge }}</p>
+                
             </div>
         </div>
 

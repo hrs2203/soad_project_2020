@@ -39,6 +39,7 @@ def login_user_page(request):
     context["form"] = form
     if request.user.is_authenticated:
         return redirect("/user")
+    print("INNNN")
 
     return render(request=request, template_name="login_user.html", context=context)
 
@@ -159,11 +160,15 @@ def signup_business_page(request):
 
 
 def user_page(request):
-    return render(request=request, template_name="user_page.html", context={})
+    context = dict()
+    context["customerDetail"] = CustomerModel.objects.filter(userModel=request.user)[0]
+    return render(request=request, template_name="user_page.html", context=context)
 
 
 def business_page(request):
-    return render(request=request, template_name="business_page.html", context={})
+    context = dict()
+    context["businessDetail"] = BusinessModel.objects.filter(userModel=request.user)[0]
+    return render(request=request, template_name="business_page.html", context=context)
 
 
 def choice_page(request):
@@ -175,6 +180,13 @@ def payment_page(request):
 
 
 def upload_custom_product(request):
+
+    if not request.user.is_authenticated:
+        return redirect("/login/business")
+
+    if not request.user.is_staff:
+        return redirect("/user")
+
     context = {}
     form = upload_product_form()
     context["form"] = form

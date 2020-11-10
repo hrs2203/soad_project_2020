@@ -3,7 +3,7 @@ import customer_block.views as v
 
 urlpatterns = [
     path('', v.home_page, name="home_page"),
-    path('logout/user', v.logout_page, name="logout_page"),
+    path('logout', v.logout_page, name="logout_page"),
     path('login/user', v.login_user_page, name="login_user_page"),
     path('login/business', v.login_business_page, name="login_business_page"),
     path('signup/user', v.signup_user_page, name="signup_user_page"),
