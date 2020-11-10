@@ -13,6 +13,7 @@ from customer_block.models import CustomerModel, BusinessModel, OrderModel
 from image_model.models import Product
 from image_model.forms import upload_product_form
 
+
 def home_page(request):
     return render(request=request, template_name="homepage.html", context={})
 
@@ -74,15 +75,84 @@ def logout_page(request):
 
 def signup_user_page(request):
     context = {}
-    form = user_signup_form()
+
+    if request.method == "POST":
+        form = user_signup_form(request.POST)
+        if form.is_valid():
+
+            try:
+                newUser = User.objects.create_user(
+                    email=form.cleaned_data["userEmail"],
+                    username=form.cleaned_data["userName"],
+                    password=form.cleaned_data["password"],
+                )
+                newUser.is_staff = False
+                newUser.save()
+            except:
+                return redirect("/signup/user")
+
+            newUserDetail = CustomerModel(userModel=newUser)
+            newUserDetail.save()
+            user = authenticate(
+                request,
+                username=request.POST["userName"],
+                password=request.POST["password"],
+            )
+            if user:
+                login(request, user)
+                return redirect("/")
+            else:
+                print("not auth")
+
+    else:
+        form = user_signup_form()
+
     context["form"] = form
+
     return render(request=request, template_name="signup_user.html", context=context)
 
 
 def signup_business_page(request):
     context = {}
-    form = business_signup_form()
+
+    if request.method == "POST":
+        form = business_signup_form(request.POST)
+        if form.is_valid():
+
+            try:
+                newUser = User.objects.create_user(
+                    email=form.cleaned_data["businessEmail"],
+                    username=form.cleaned_data["businessName"],
+                    password=form.cleaned_data["password"],
+                )
+                newUser.is_staff = True
+                newUser.save()
+            except:
+                print("some error")
+                return redirect("/signup/business")
+
+            newBusinessDetail = BusinessModel(
+                userModel=newUser,
+                serviceCharge=form.cleaned_data["serviceCharge"],
+                businessDescription=form.cleaned_data["businessDescription"],
+            )
+            newBusinessDetail.save()
+            user = authenticate(
+                request,
+                username=request.POST["businessName"],
+                password=request.POST["password"],
+            )
+            if user:
+                login(request, user)
+                return redirect("/")
+            else:
+                print("not auth")
+
+    else:
+        form = business_signup_form()
+
     context["form"] = form
+
     return render(
         request=request, template_name="signup_business.html", context=context
     )
@@ -102,6 +172,7 @@ def choice_page(request):
 
 def payment_page(request):
     return render(request=request, template_name="make_payment.html", context={})
+
 
 def upload_custom_product(request):
     context = {}
