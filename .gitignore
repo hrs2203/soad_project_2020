@@ -1,5 +1,7 @@
 proj_env/
 
+kalakriti/image_model/images/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
