@@ -232,6 +232,20 @@ def confirm_payment_page(request):
 
     return redirect("/user")
 
+def add_money_to_user(request):
+    if not request.user.is_authenticated:
+        return('/login/user')
+
+    if request.user.is_staff:
+        return redirect('/business')
+    
+    context = dict()
+
+    if request.method == 'POST':
+        return redirect('/user')
+    
+    return render(request=request, template_name="add_money_page.html", context=context  )
+
 
 def payment_page(request):
     context = dict()

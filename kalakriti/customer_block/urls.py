@@ -14,4 +14,5 @@ urlpatterns = [
     path('make_payment', v.payment_page, name="payment_page"),
     path('confirm_payment', v.confirm_payment_page, name="confirm_payment_page"),
     path('upload_product', v.upload_custom_product, name="upload_custom_product"),
+    path('add_more_money', v.add_money_to_user, name="money_page"),
 ]
