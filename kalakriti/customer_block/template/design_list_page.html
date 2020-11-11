@@ -18,16 +18,39 @@
 
 <div class="pl-2 pt-2">
     <div>
-        <form class="row" action="" method="post">
-            <!-- TODO: add selection criteria -->
+        {% if not request.user.is_staff %}
+        <form class="form-group" action="/make_payment" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <select class="form-control w-100" name="selectedProductId" id="selectedProductId">
+                        <option selected="selected" disabled>Select Product Id</option>
+                        {% for prod in productList %}
+                            <option value="{{ prod.id }}"> Product Id: {{ prod.id }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control w-100" name="selectedBusinessId" id="selectedBusinessId">
+                        <option selected="selected" disabled>Select Business Id</option>
+                        {% for dealer in dealerList %}
+                            <option value="{{ dealer.id }}"> business Id: {{ dealer.id }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success w-100" type="submit">Place Order</button>
+                </div>
+            </div>
         </form>
+        {% endif %}
     </div>
     <div class="row">
         <div class="col">
             {% for prod in productList %}
             <div class="card bg-white shadow mt-3 mb-5">
                 <div class="card-header">
-                    <h3> {{ prod.ProductName }} </h3>
+                    <h3> product Id : {{ prod.id }} </h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -62,7 +85,7 @@
             {% for dealer in dealerList %}
             <div class="card bg-white shadow mt-3 mb-5">
                 <div class="card-header">
-                    <h3> {{ dealer.userModel.username }} </h3>
+                    <h3> business Id: {{ dealer.id }} </h3>
                 </div>
                 <div class="card-body">
                     <div class="col">

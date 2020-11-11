@@ -2,8 +2,171 @@
 
 {% block title %} payment {% endblock %}
 
+{% block customStyle %}
+
+<style>
+    img {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>payment</h1>
+<div class="row pl-2 pt-2">
+    <div class="col">
+        <div class="row">
+            {% if productObject %}
+            <div class="card bg-white shadow mt-3 mb-5 w-100">
+                <div class="card-header">
+                    <h3> product Id : {{ productObject.id }} </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="{{ productObject.ProductUrl }}" alt="{{ productObject.ProductName }}">
+                        </div>
+                        <div class="col">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Product Name : </td>
+                                    <td>{{ productObject.ProductName }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Product Price : </td>
+                                    <td>{{ productObject.ProductPrice }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Product Description : </td>
+                                    <td>{{ productObject.ProductDescription }}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card bg-white shadow mt-3 mb-5 w-100">
+                <div class="card-header">
+                    <h3> product Id : None </h3>
+                </div>
+                <div class="card-body">
+                    <p>Please Select a product</p>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="row">
+            {% if businessObject %}
+            <div class="card bg-white shadow mt-3 mb-5 w-100">
+                <div class="card-header">
+                    <h3> business Id: {{ businessObject.id }} </h3>
+                </div>
+                <div class="card-body">
+                    <div class="col">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Dealer Name : </td>
+                                <td>{{ businessObject.userModel.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dealer Price : </td>
+                                <td>{{ businessObject.serviceCharge }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dealer Description : </td>
+                                <td>{{ businessObject.businessDescription }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card bg-white shadow mt-3 mb-5 w-100">
+                <div class="card-header">
+                    <h3> business Id : None </h3>
+                </div>
+                <div class="card-body">
+                    <p>Please Select a dealer</p>
+                </div>
+            </div>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+    <div class="col" >
+        {% if businessObject and productObject %}
+        <div class="card bg-white shadow mt-3 mb-5 w-100">
+            <div class="card-header">
+                <h3> Payment </h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Dealer Name : </td>
+                        <td>{{ businessObject.userModel.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Product Name : </td>
+                        <td>{{ productObject.ProductName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Dealer Service Charge : </td>
+                        <td> Rs. {{ businessObject.serviceCharge }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Product Price : </td>
+                        <td> Rs. {{ productObject.ProductPrice }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Payable Amount : </td>
+                        <td> Rs. {{ totalPaymentAmount }}</td>
+                    </tr>
+                </table>
+
+                <h3> User Detail </h3>
+                <hr>
+                <table class="table table-striped">
+                    <tr>
+                        <td>User Name : </td>
+                        <td>{{ customerDetail.userModel.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Account Balance : </td>
+                        <td> Rs. {{ customerDetail.balance }}</td>
+                    </tr>
+                    <tr>
+                        <td>MakePayment : </td>
+                        <td>
+                            {% if canUserPay %}
+                                <button class="btn btn-outline-success">Pay</button>
+                            {% else %}
+                                <button class="btn btn-outline-danger">Insufficient balance</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        {% else %}
+            <div class="card bg-white shadow mt-3 mb-5 w-100">
+                <div class="card-body">
+                    <p>Please Select Values</p>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
 
 {% endblock %}

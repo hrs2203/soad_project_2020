@@ -195,7 +195,43 @@ def choice_page(request):
 
 
 def payment_page(request):
-    return render(request=request, template_name="make_payment.html", context={})
+    context = dict()
+
+    context["businessId"] = None
+    context["productId"] = None
+    context["businessObject"] = None
+    context["productObject"] = None
+    context["customerDetail"] = None
+    context["canUserPay"] = False
+    context["totalPaymentAmount"] = 0
+
+    if not request.user.is_staff :
+        if request.method == "POST":
+            try:
+                context["businessId"] = request.POST["selectedBusinessId"]
+                context["productId"] = request.POST["selectedProductId"]
+                context["businessObject"] = BusinessModel.objects.filter(
+                    id=context["businessId"]
+                )[0]
+                context["productObject"] = Product.objects.filter(id=context["productId"])[
+                    0
+                ]
+                context["totalPaymentAmount"] = (
+                    context["businessObject"].serviceCharge
+                    + context["productObject"].ProductPrice
+                )
+                context["customerDetail"] = CustomerModel.objects.filter(userModel=request.user)[0]
+                context["canUserPay"] = (context["customerDetail"].balance >= context["totalPaymentAmount"])
+            except:
+                context["businessId"] = None
+                context["productId"] = None
+                context["businessObject"] = None
+                context["productObject"] = None
+                context["customerDetail"] = None
+                context["canUserPay"] = False
+                context["totalPaymentAmount"] = 0
+
+    return render(request=request, template_name="make_payment.html", context=context)
 
 
 def genRandomName(fileName):
