@@ -146,7 +146,15 @@
                         <td>MakePayment : </td>
                         <td>
                             {% if canUserPay %}
-                                <button class="btn btn-outline-success">Pay</button>
+                            <form action="{% url 'confirm_payment_page' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="productModelId" value={{ productObject.id }}>
+                                <input type="hidden" name="userModelId" value={{ customerDetail.id }}>
+                                <input type="hidden" name="businessModelId" value={{ businessObject.id }}>
+                                <input type="hidden" name="totalAmount" value={{ totalPaymentAmount }}>
+                                
+                                <button type="submit" class="btn btn-outline-success">Pay</button>
+                            </form>
                             {% else %}
                                 <button class="btn btn-outline-danger">Insufficient balance</button>
                             {% endif %}

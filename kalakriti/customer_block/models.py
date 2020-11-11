@@ -26,9 +26,9 @@ class BusinessModel(models.Model):
 class OrderModel(models.Model):
     """ Order model """
 
-    productModelLink = models.OneToOneField(Product, on_delete=models.DO_NOTHING)
-    userModelLink = models.OneToOneField(CustomerModel, on_delete=models.DO_NOTHING)
-    businessModelLink = models.OneToOneField(BusinessModel, on_delete=models.DO_NOTHING)
+    productModelLink = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    userModelLink = models.ForeignKey(CustomerModel, on_delete=models.DO_NOTHING)
+    businessModelLink = models.ForeignKey(BusinessModel, on_delete=models.DO_NOTHING)
     paymentStatus = models.BooleanField(default=False)
     deliveryStatus = models.BooleanField(default=False)
     totalAmount = models.IntegerField(default=0)

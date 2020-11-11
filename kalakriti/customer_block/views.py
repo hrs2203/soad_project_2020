@@ -167,8 +167,12 @@ def user_page(request):
         context["customerDetail"] = CustomerModel.objects.filter(
             userModel=request.user
         )[0]
+        context["orderHistory"] = OrderModel.objects.filter(
+            userModelLink=context["customerDetail"]
+        )
+
     except:
-        pass
+        context = dict()
     return render(request=request, template_name="user_page.html", context=context)
 
 
@@ -178,8 +182,11 @@ def business_page(request):
         context["businessDetail"] = BusinessModel.objects.filter(
             userModel=request.user
         )[0]
+        context["orderHistory"] = OrderModel.objects.filter(
+            businessModelLink=context["businessDetail"]
+        )
     except:
-        pass
+        context = dict()
     return render(request=request, template_name="business_page.html", context=context)
 
 
@@ -194,6 +201,38 @@ def choice_page(request):
     )
 
 
+def confirm_payment_page(request):
+
+    if request.method == "POST":
+        paymentAmount = int(request.POST["totalAmount"])
+
+        tempProductModel = Product.objects.filter(id=request.POST["productModelId"])[0]
+
+        tempCustomerModel = CustomerModel.objects.filter(
+            id=request.POST["userModelId"]
+        )[0]
+        tempCustomerModel.balance -= paymentAmount
+        tempCustomerModel.save()
+
+        tempbusinessModel = BusinessModel.objects.filter(
+            id=request.POST["businessModelId"]
+        )[0]
+        tempbusinessModel.balance += paymentAmount
+        tempbusinessModel.save()
+
+        tempOrder = OrderModel(
+            productModelLink=tempProductModel,
+            userModelLink=tempCustomerModel,
+            businessModelLink=tempbusinessModel,
+            paymentStatus=True,
+            deliveryStatus=False,
+            totalAmount=request.POST["totalAmount"],
+        )
+        tempOrder.save()
+
+    return redirect("/user")
+
+
 def payment_page(request):
     context = dict()
 
@@ -205,7 +244,7 @@ def payment_page(request):
     context["canUserPay"] = False
     context["totalPaymentAmount"] = 0
 
-    if not request.user.is_staff :
+    if not request.user.is_staff:
         if request.method == "POST":
             try:
                 context["businessId"] = request.POST["selectedBusinessId"]
@@ -213,15 +252,19 @@ def payment_page(request):
                 context["businessObject"] = BusinessModel.objects.filter(
                     id=context["businessId"]
                 )[0]
-                context["productObject"] = Product.objects.filter(id=context["productId"])[
-                    0
-                ]
+                context["productObject"] = Product.objects.filter(
+                    id=context["productId"]
+                )[0]
                 context["totalPaymentAmount"] = (
                     context["businessObject"].serviceCharge
                     + context["productObject"].ProductPrice
                 )
-                context["customerDetail"] = CustomerModel.objects.filter(userModel=request.user)[0]
-                context["canUserPay"] = (context["customerDetail"].balance >= context["totalPaymentAmount"])
+                context["customerDetail"] = CustomerModel.objects.filter(
+                    userModel=request.user
+                )[0]
+                context["canUserPay"] = (
+                    context["customerDetail"].balance >= context["totalPaymentAmount"]
+                )
             except:
                 context["businessId"] = None
                 context["productId"] = None
