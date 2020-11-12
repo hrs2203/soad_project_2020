@@ -110,7 +110,11 @@
                             <td>{{ order.totalAmount }}</td>
                             <td>{{ order.paymentStatus }}</td>
                             <td>{{ order.deliveryStatus }}</td>
-                            <td> Pending </td>
+                            {% if order.deliveryStatus %}
+                                <td> Delivered </td>
+                            {% else %}
+                                <td> Pending </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>

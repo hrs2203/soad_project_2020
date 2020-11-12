@@ -246,6 +246,24 @@ def add_money_to_user(request):
     
     return render(request=request, template_name="add_money_page.html", context=context  )
 
+def deliver_custom_product(request):
+    
+    if request.method == 'POST':
+        orderId = request.POST['orderId']
+        tempOrderObj = OrderModel.objects.filter(id=orderId)[0]
+        try:
+            tempOrderObj.deliveryStatus = True
+            tempOrderObj.save()
+        except:
+            pass
+
+
+    if request.user.is_staff:
+        return redirect('/business')
+    else:
+        return redirect('/user')
+
+
 
 def payment_page(request):
     context = dict()

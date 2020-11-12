@@ -90,7 +90,7 @@
             <div class="card-body">
                 <p>Business Description : {{ businessDetail.businessDescription }}</p>
                 <p>Business Service Charge : {{ businessDetail.serviceCharge }}</p>
-                
+
             </div>
         </div>
 
@@ -120,8 +120,24 @@
                             <td>{{ order.productModelLink.id }}</td>
                             <td>{{ order.totalAmount }}</td>
                             <td>{{ order.paymentStatus }}</td>
-                            <td>{{ order.deliveryStatus }}</td>
-                            <td> Pending </td>
+                            {% if not order.paymentStatus %}
+                                <td>{{ order.deliveryStatus }}</td>
+                                <td> Pending </td>
+                            {% else %}   
+                                {% if order.deliveryStatus %}
+                                    <td>Delivered</td>
+                                    <td>Confirmed</td>
+                                {% else %}
+                                <td>
+                                    <form action="{% url 'deliver_custom_product' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="orderId" value="{{ order.id }}">
+                                        <button type="submit" class="btn btn-outline-success">Send Order</button>
+                                    </form>
+                                </td>
+                                <td>Pending</td>
+                                {% endif %}
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
