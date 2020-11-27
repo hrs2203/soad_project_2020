@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "customer_block",
     "image_model",
     "rest_service",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,7 @@
 from django.urls import path
-import rest_service.views as v
+from rest_service import views
 
 urlpatterns = [
-    path('', v.sampleResponse),
+    path('', views.sampleResponse),
+    path('allProduct', views.productList )
 ]
