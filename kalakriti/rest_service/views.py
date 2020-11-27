@@ -5,20 +5,61 @@ from django.views.decorators.csrf import csrf_exempt
 from customer_block.models import CustomerModel, BusinessModel, OrderModel
 from image_model.models import Product
 
-from rest_service.serializers import ProductSerializer
+from rest_service.serializers import (
+    ProductSerializer,
+    CustomerModelSerializer,
+    BusinessModelSerializer,
+    OrderModelSerializer,
+)
 
 # Create your views here.
 def sampleResponse(request):
     return JsonResponse({"model": "sample api response"})
 
 
-# @csrf_exempt
+@csrf_exempt
 def productList(request):
     """
-    List All Product
+    List All Product list
     """
 
     if request.method == "GET":
         allProd = Product.objects.all()
         serializedProd = ProductSerializer(allProd, many=True)
         return JsonResponse(serializedProd.data, safe=False)
+
+
+@csrf_exempt
+def customerList(request):
+    """
+    List All customer list
+    """
+
+    if request.method == "GET":
+        allSerializedCustomer = CustomerModel.objects.all()
+        serializedCustomerModel = CustomerModelSerializer(allSerializedCustomer, many=True)
+        return JsonResponse(serializedCustomerModel.data, safe=False)
+
+
+@csrf_exempt
+def businessList(request):
+    """
+    List All business list
+    """
+
+    if request.method == "GET":
+        allSerializedBusiness = BusinessModel.objects.all()
+        serializedBusinessModel = BusinessModelSerializer(allSerializedBusiness, many=True)
+        return JsonResponse(serializedBusinessModel.data, safe=False)
+
+
+@csrf_exempt
+def orderList(request):
+    """
+    List All order list
+    """
+
+    if request.method == "GET":
+        allSerializedOrder = OrderModel.objects.all()
+        serializedOrderModel = OrderModelSerializer(allSerializedOrder, many=True)
+        return JsonResponse(serializedOrderModel.data, safe=False)
