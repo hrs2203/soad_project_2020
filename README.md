@@ -7,6 +7,15 @@
 
 ### BACKEND AND API
 
+TODO LIST : 
+- [ ] 1. To place an order
+- [ ] 2. To place a bulk of order, maybe from different business (ideally for small business and single customer)
+- [ ] 3. Upload an order (maybe an image with description and cost)
+- [ ] 4. Upload bulk order, this will be only available businesses
+- [ ] 5. Generate a list of apparels (for the design benefit for small employees)
+- [ ] 6. Generate a list of apparels for certain parameters (like cost and only mugs), 
+- [ ] 7. API to add money to account. Transactions happen on our platform
+
 
 ### IMAGE_GEN
 Black box for me.
