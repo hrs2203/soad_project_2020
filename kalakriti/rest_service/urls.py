@@ -7,4 +7,5 @@ urlpatterns = [
     path('allCustomer', views.customerList, name="all_customer_list"),
     path('allBusiness', views.businessList, name="all_business_list"),
     path('allOrder', views.orderList, name="all_order_list"),
+    path('generate_new_image', views.getGeneratedImage, name="generate_new_image"),
 ]

@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from customer_block.models import CustomerModel, BusinessModel, OrderModel
 from image_model.models import Product
 
+from image_model.views import generateGANImage
+
 from rest_service.serializers import (
     ProductSerializer,
     CustomerModelSerializer,
@@ -14,7 +16,23 @@ from rest_service.serializers import (
 
 # Create your views here.
 def sampleResponse(request):
-    return JsonResponse({"model": "sample api response"})
+    return JsonResponse(
+        {
+            "api_list": [
+                "api/allProduct",
+                "api/allCustomer",
+                "api/allBusiness",
+                "api/allOrder",
+                "api/generate_new_image"
+            ]
+        }
+    )
+
+
+def getGeneratedImage(request):
+    """REST api to generate image"""
+    newImageUrl = generateGANImage()
+    return JsonResponse({"image_url": newImageUrl})
 
 
 @csrf_exempt
@@ -37,7 +55,9 @@ def customerList(request):
 
     if request.method == "GET":
         allSerializedCustomer = CustomerModel.objects.all()
-        serializedCustomerModel = CustomerModelSerializer(allSerializedCustomer, many=True)
+        serializedCustomerModel = CustomerModelSerializer(
+            allSerializedCustomer, many=True
+        )
         return JsonResponse(serializedCustomerModel.data, safe=False)
 
 
@@ -49,7 +69,9 @@ def businessList(request):
 
     if request.method == "GET":
         allSerializedBusiness = BusinessModel.objects.all()
-        serializedBusinessModel = BusinessModelSerializer(allSerializedBusiness, many=True)
+        serializedBusinessModel = BusinessModelSerializer(
+            allSerializedBusiness, many=True
+        )
         return JsonResponse(serializedBusinessModel.data, safe=False)
 
 

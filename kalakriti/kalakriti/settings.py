@@ -132,6 +132,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "customer_block", "template"),
     os.path.join(BASE_DIR, "image_model", "images"),
+    os.path.join(BASE_DIR, "image_model", "generated_images")
 ]
 
 # Media File

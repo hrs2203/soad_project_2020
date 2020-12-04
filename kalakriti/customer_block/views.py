@@ -336,6 +336,7 @@ def genRandomName(fileName):
 
 
 def upload_custom_product(request):
+    """ Web interface to upload image """
 
     if not request.user.is_authenticated:
         return redirect("/login/business")
