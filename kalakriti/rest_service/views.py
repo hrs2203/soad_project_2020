@@ -327,6 +327,44 @@ def customerList(request):
         )
         return JsonResponse(serializedCustomerModel.data, safe=False)
 
+@csrf_exempt
+def customerDetail(request):
+    """
+    Individual Customer Detail
+
+    - request body
+    ```
+    {
+        "customerId" : 5,
+        "password": "pwd123"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "detail": <Customer Object>
+    }
+    ```
+    """
+
+    if request.method == 'POST':
+        reqData = json.loads(request.body)
+
+        customerId = reqData["customerId"]
+        password = reqData["password"]
+
+        CustomerObjList = CustomerModel.objects.filter(id=customerId)
+        if len(CustomerObjList) == 0:
+            return JsonResponse({"message": "Invalid Customer Id"})
+
+        CustomerObj = CustomerObjList[0]
+        if not CustomerObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Customer credentials"})
+        
+        tempCustomer = CustomerModelSerializer(CustomerObj)
+        return JsonResponse({"detail": tempCustomer.data})
+
 
 @csrf_exempt
 def businessList(request):
@@ -340,6 +378,44 @@ def businessList(request):
             allSerializedBusiness, many=True
         )
         return JsonResponse(serializedBusinessModel.data, safe=False)
+
+@csrf_exempt
+def businessDetail(request):
+    """
+    Individual Business Detail
+
+    - request body
+    ```
+    {
+        "businessId" : 5,
+        "password": "pwd123"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "detail": <Business Object>
+    }
+    ```
+    """
+
+    if request.method == 'POST':
+        reqData = json.loads(request.body)
+
+        businessId = reqData["businessId"]
+        password = reqData["password"]
+
+        BusinessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(BusinessObjList) == 0:
+            return JsonResponse({"message": "Invalid Business Id"})
+
+        BusinessObj = BusinessObjList[0]
+        if not BusinessObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Business credentials"})
+        
+        tempBusiness = BusinessModelSerializer(BusinessObj)
+        return JsonResponse({"detail": tempBusiness.data})
 
 
 @csrf_exempt

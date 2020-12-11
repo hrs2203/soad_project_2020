@@ -10,5 +10,8 @@ urlpatterns = [
     path("generate_new_image", views.getGeneratedImage, name="generateNewImage"),
     path("place_order", views.placeOrder, name="placeOrder"),
     path("confirm_order", views.confirmOrderDelivery, name="confirmOrder"),
-    path("upload_product", views.uploadProduct, name="uploadProduct")
+    path("upload_product", views.uploadProduct, name="uploadProduct"),
+    path("customer_detail", views.customerDetail, name="customerDetail"),
+    path("business_detail", views.businessDetail, name="businessDetail"),
+    
 ]
