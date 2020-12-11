@@ -31,10 +31,57 @@ def sampleResponse(request):
     )
 
 
+@csrf_exempt
 def getGeneratedImage(request):
-    """REST api to generate image"""
-    newImageUrl = generateGANImage()
-    return JsonResponse({"image_url": newImageUrl})
+    """
+    - REST api to generate image only for businesses
+    - image generation charge $10       
+    
+    - request body
+    ```
+    {
+        "businessId": 4,
+        "businessPassword" : "pwd123"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "image_url": "newImageUrl"
+    }
+    ```
+    """
+    if request.method == "POST":
+
+        reqData = json.loads(request.body)
+
+        businessId = reqData["businessId"]
+        businessPassword = reqData["businessPassword"]
+
+        ## ====== confirm credentials ======
+
+        businessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(businessObjList) == 0:
+            return JsonResponse({"message": "Invalid business Id"})
+
+        businessObj = businessObjList[0]
+        if not businessObj.userModel.check_password(businessPassword):
+            return JsonResponse({"message": "Invalid business credentials"})
+
+        if businessObj.balance < 10:
+            return JsonResponse({"message": "Insufficient Balance"})
+
+        businessObj.balance -= 10
+        businessObj.save()
+
+        newImageUrl = generateGANImage()
+        return JsonResponse(
+            {
+                "image_url": newImageUrl,
+                "message": "$10 has be credited from your account.",
+            }
+        )
 
 
 @csrf_exempt
