@@ -13,11 +13,11 @@ TODO LIST :
 - [x] Confirm Order devlivery.
 - [x] Generate New Apparal.
 - [x] Upload an order (maybe an image with description and cost)
-- [ ] Upload bulk order, this will be only available businesses
 - [x] Generate an apparel.
-- [ ] update apparel detail for certain parameters (like cost),
+- [ ] Update apparel detail for certain parameters (like cost),
 - [x] Get your business detail
 - [x] Get your user account detail
+- [ ] Stats of you detail compared to others.
 - [ ] API to add money to account. Transactions happen on our platform
 
 

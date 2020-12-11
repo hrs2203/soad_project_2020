@@ -327,6 +327,7 @@ def customerList(request):
         )
         return JsonResponse(serializedCustomerModel.data, safe=False)
 
+
 @csrf_exempt
 def customerDetail(request):
     """
@@ -348,7 +349,7 @@ def customerDetail(request):
     ```
     """
 
-    if request.method == 'POST':
+    if request.method == "POST":
         reqData = json.loads(request.body)
 
         customerId = reqData["customerId"]
@@ -361,7 +362,7 @@ def customerDetail(request):
         CustomerObj = CustomerObjList[0]
         if not CustomerObj.userModel.check_password(password):
             return JsonResponse({"message": "Invalid Customer credentials"})
-        
+
         tempCustomer = CustomerModelSerializer(CustomerObj)
         return JsonResponse({"detail": tempCustomer.data})
 
@@ -378,6 +379,7 @@ def businessList(request):
             allSerializedBusiness, many=True
         )
         return JsonResponse(serializedBusinessModel.data, safe=False)
+
 
 @csrf_exempt
 def businessDetail(request):
@@ -400,7 +402,7 @@ def businessDetail(request):
     ```
     """
 
-    if request.method == 'POST':
+    if request.method == "POST":
         reqData = json.loads(request.body)
 
         businessId = reqData["businessId"]
@@ -413,9 +415,63 @@ def businessDetail(request):
         BusinessObj = BusinessObjList[0]
         if not BusinessObj.userModel.check_password(password):
             return JsonResponse({"message": "Invalid Business credentials"})
-        
+
         tempBusiness = BusinessModelSerializer(BusinessObj)
         return JsonResponse({"detail": tempBusiness.data})
+
+
+@csrf_exempt
+def businessStats(request):
+    """
+    Individual Business Detail
+
+    - request body
+    ```
+    {
+        "businessId" : 5,
+        "password": "pwd123"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "businessDetail": <Business Object>,
+        "businessSales": { ...},
+        "totalSales": { ...}
+    }
+    ```
+    """
+
+    if request.method == "POST":
+        reqData = json.loads(request.body)
+
+        businessId = reqData["businessId"]
+        password = reqData["password"]
+
+        BusinessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(BusinessObjList) == 0:
+            return JsonResponse({"message": "Invalid Business Id"})
+
+        BusinessObj = BusinessObjList[0]
+        if not BusinessObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Business credentials"})
+
+        tempBusiness = BusinessModelSerializer(BusinessObj)
+
+        orderCount = OrderModel.objects.all().count()
+        businessOrder = OrderModel.objects.filter(businessModelLink=BusinessObj)
+
+        tempbusinessOrder = OrderModelSerializer(businessOrder, many=True)
+
+        return JsonResponse(
+            {
+                "businessDetail": tempBusiness.data,
+                "totalSalesCount": orderCount,
+                "businessSalesCount": len(tempbusinessOrder.data),
+                "businessSales": tempbusinessOrder.data,                
+            }
+        )
 
 
 @csrf_exempt
