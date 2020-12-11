@@ -1,9 +1,7 @@
 # soad_project_2020
 # SOAD PROJECT 2020
 
-
-### FRONTEND
-
+Visit our dev docs at [devSite](https://hrs2203.github.io/soad_project_2020/)
 
 ### BACKEND AND API
 
