@@ -38,6 +38,68 @@ def getGeneratedImage(request):
 
 
 @csrf_exempt
+def confirmOrderDelivery(request):
+    """
+    Confirm payment from business side.
+
+    - request body
+    ```
+    {
+        "orderId": 5,
+        "businessId": 4,
+        "businessPassword" : "pwd123"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "orderId": 5,
+        "status" : true | false
+    }
+    ```
+    """
+    if request.method == "POST":
+        reqData = json.loads(request.body)
+
+        orderId = reqData["orderId"]
+        businessId = reqData["businessId"]
+        businessPassword = reqData["businessPassword"]
+
+        ## ====== confirm credentials ======
+
+        businessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(businessObjList) == 0:
+            return JsonResponse({"message": "Invalid business Id"})
+
+        businessObj = businessObjList[0]
+        if not businessObj.userModel.check_password(businessPassword):
+            return JsonResponse({"message": "Invalid business credentials"})
+
+        ## ==============================
+
+        try:
+            tempOrderObj = OrderModel.objects.filter(id=orderId)[0]
+
+            if not (tempOrderObj.businessModelLink == businessObj):
+                return JsonResponse({"message": "Invalid business credentials"})
+
+            tempOrderObj.deliveryStatus = True
+            tempOrderObj.save()
+            return JsonResponse(
+                {
+                    "orderId": orderId,
+                    "status": tempOrderObj.deliveryStatus,
+                    "message": "success",
+                }
+            )
+        except:
+            return JsonResponse(
+                {"orderId": orderId, "status": False, "message": "Invalid Order Id"}
+            )
+
+
+@csrf_exempt
 def placeOrder(request):
     """ Place Bulk Order 
 
@@ -146,18 +208,22 @@ def placeOrder(request):
                 )
                 tempResponse["paymentStatus"] = context["canUserPay"]
                 tempResponse["totalAmount"] = context["totalPaymentAmount"]
-                
-                if ( tempResponse["paymentStatus"] ):
-                    tempCustomerModel = CustomerModel.objects.get( id=order["customerId"] )
+
+                if tempResponse["paymentStatus"]:
+                    tempCustomerModel = CustomerModel.objects.get(
+                        id=order["customerId"]
+                    )
                     tempCustomerModel.balance -= tempResponse["totalAmount"]
                     tempCustomerModel.save()
-                    
-                    tempBusinessModel = BusinessModel.objects.get(id=order["businessId"])
+
+                    tempBusinessModel = BusinessModel.objects.get(
+                        id=order["businessId"]
+                    )
                     tempBusinessModel.balance += tempResponse["totalAmount"]
                     tempBusinessModel.save()
 
                     tempProductModel = Product.objects.get(id=order["productId"])
-                    
+
                     tempOrder = OrderModel(
                         productModelLink=tempProductModel,
                         userModelLink=tempCustomerModel,
