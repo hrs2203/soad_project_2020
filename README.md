@@ -14,7 +14,6 @@ TODO LIST :
 - [x] Generate New Apparal.
 - [x] Upload an order (maybe an image with description and cost)
 - [x] Generate an apparel.
-- [ ] Update apparel detail for certain parameters (like cost),
 - [x] Get your business detail
 - [x] Get your user account detail
 - [x] Stats of you sales compared to others.
