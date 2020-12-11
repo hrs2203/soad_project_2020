@@ -4,6 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 
+import os, random, string
+from pathlib import Path
+from django.core.files.storage import default_storage
+
 from customer_block.models import CustomerModel, BusinessModel, OrderModel
 from image_model.models import Product
 
@@ -348,3 +352,62 @@ def orderList(request):
         allSerializedOrder = OrderModel.objects.all()
         serializedOrderModel = OrderModelSerializer(allSerializedOrder, many=True)
         return JsonResponse(serializedOrderModel.data, safe=False)
+
+
+def genRandomName(fileName):
+    """Generate unique Name for images
+
+    Args:
+        fileName (str): fileName to get its extention
+
+    Returns:
+        str: unique file name
+    """
+    fileExt = fileName.split(".")[-1]
+    randName = "".join([random.choice(string.ascii_lowercase) for i in range(20)])
+    resp = f"{randName}.{fileExt}"
+
+    BASE_FILE = Path(__file__).resolve().parent.parent
+    FILE_PATH = os.path.join(BASE_FILE, "image_model", "images", resp)
+
+    while os.path.isfile(FILE_PATH):
+        randName = "".join([random.choice(string.ascii_lowercase) for i in range(20)])
+        resp = f"{randName}.{fileExt}"
+
+        BASE_FILE = Path(__file__).resolve().parent.parent
+        FILE_PATH = os.path.join(BASE_FILE, "image_model", "images", resp)
+
+    return resp
+
+
+@csrf_exempt
+def uploadProduct(request):
+    if request.method == "POST":
+        # reqData = json.loads(request.body)
+
+        product_name = request.POST["product_name"]
+        description = request.POST["description"]
+        product_price = request.POST["product_price"]
+
+        temp_file = request.FILES["uploaded_image"]
+        tempFileName = genRandomName(temp_file.name)
+        file_name = default_storage.save(tempFileName, temp_file)
+
+        tempProduct = Product(
+            ProductName=product_name,
+            ProductUrl=f"/static/{tempFileName}",
+            ProductDescription=description,
+            ProductPrice=int(product_price),
+        )
+        tempProduct.save()
+
+        tempProductDetail = ProductSerializer(tempProduct)
+
+        return JsonResponse(
+            {
+                "newImageUrl": f"/static/{tempFileName}",
+                "productId": tempProduct.id,
+                "productDetail": tempProductDetail.data,
+            }
+        )
+

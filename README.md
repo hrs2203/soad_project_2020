@@ -12,7 +12,7 @@ TODO LIST :
 - [x] To place a bulk of order, maybe from different business (ideally for small business and single customer)
 - [x] Confirm Order devlivery.
 - [x] Generate New Apparal.
-- [ ] Upload an order (maybe an image with description and cost)
+- [x] Upload an order (maybe an image with description and cost)
 - [ ] Upload bulk order, this will be only available businesses
 - [x] Generate an apparel.
 - [ ] Upload a list of apparels for certain parameters (like cost), 
