@@ -17,7 +17,7 @@ TODO LIST :
 - [ ] Update apparel detail for certain parameters (like cost),
 - [x] Get your business detail
 - [x] Get your user account detail
-- [ ] Stats of you detail compared to others.
+- [x] Stats of you sales compared to others.
 - [ ] API to add money to account. Transactions happen on our platform
 
 
