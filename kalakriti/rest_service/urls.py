@@ -4,6 +4,7 @@ from rest_service import views
 urlpatterns = [
     path("", views.sampleResponse),
     path("register_business", views.registerBusiness, name="registerBusinessApi"),
+    path("register_customer", views.registerCustomer, name="registerCustomerApi"),
     path("allProduct", views.productList, name="all_productList"),
     path("allCustomer", views.customerList, name="all_customerList"),
     path("allBusiness", views.businessList, name="all_businessList"),

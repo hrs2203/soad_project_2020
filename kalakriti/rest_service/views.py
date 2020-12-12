@@ -96,6 +96,48 @@ def registerBusiness(request):
 
         return JsonResponse(tempBusiness.data)
 
+@csrf_exempt
+def registerCustomer(request):
+    """ register customer api
+    - request body
+    ```
+    {
+        "email" : "email",
+        "customerName" : "customerName",
+        "password" : "password",
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "id" : x,
+        "email" : "email",
+        "customerName" : "customerName",
+        "password" : "password", 
+    }
+    """
+    if request.method == 'POST':
+
+    reqData = json.loads(request.body)
+
+        email = reqData["email"]
+        customerName = reqData["customerName"]
+        password = reqData["password"]
+
+        newUser = User.objects.create_user(
+            email=email, username=customerName, password=password,
+        )
+        newUser.is_staff = False
+        newUser.save()
+
+        newUserDetail = CustomerModel(userModel=newUser)
+        newUserDetail.save()
+
+        tempCustomer = CustomerModelSerializer(newUserDetail)
+
+        return JsonResponse(tempCustomer.data)
+
 
 @csrf_exempt
 def getGeneratedImage(request):
