@@ -292,7 +292,7 @@ def placeOrder(request):
                 tempResponse["businessId"] = order["businessId"]
                 tempResponse["productId"] = order["productId"]
                 tempResponse["customerId"] = order["customerId"]
-                tempResponse["orderId"] = 2
+                tempResponse["orderId"] = tempOrder.id
                 tempResponse["message"] = "Order Not placed, Insufficient Balance"
 
             ## ==========================
