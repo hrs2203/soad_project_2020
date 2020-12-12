@@ -119,7 +119,7 @@ def registerCustomer(request):
     """
     if request.method == 'POST':
 
-    reqData = json.loads(request.body)
+        reqData = json.loads(request.body)
 
         email = reqData["email"]
         customerName = reqData["customerName"]
