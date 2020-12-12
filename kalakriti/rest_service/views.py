@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User, AnonymousUser
 
 import json
 
@@ -33,6 +34,67 @@ def sampleResponse(request):
             ]
         }
     )
+
+
+# registerBusiness
+# registerCustomer
+
+
+@csrf_exempt
+def registerBusiness(request):
+    """Register your business
+
+    - request body
+    ```
+    {
+        "email" : "email",
+        "businessName" : "businessName",
+        "password" : "password",
+        "description" : "description",
+        "serviceCharge" : 30
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "id" : x,
+        "email" : "email",
+        "businessName" : "businessName",
+        "password" : "password",
+        "description" : "description",
+        "serviceCharge" : 30 
+    }
+    ```
+    """
+    if request.method == "POST":
+        reqData = json.loads(request.body)
+
+        email = reqData["email"]
+        businessName = reqData["businessName"]
+        password = reqData["password"]
+        description = reqData["description"]
+        try:
+            serviceCharge = int(reqData["serviceCharge"])
+        except:
+            serviceCharge = 10
+
+        newUser = User.objects.create_user(
+            email=email, username=businessName, password=password,
+        )
+        newUser.is_staff = True
+        newUser.save()
+
+        newBusinessDetail = BusinessModel(
+            userModel=newUser,
+            serviceCharge=serviceCharge,
+            businessDescription=description,
+        )
+        newBusinessDetail.save()
+
+        tempBusiness = BusinessModelSerializer(newBusinessDetail)
+
+        return JsonResponse(tempBusiness.data)
 
 
 @csrf_exempt

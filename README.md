@@ -17,6 +17,8 @@ TODO LIST :
 - [x] Stats of you sales compared to others.
 - [x] API to add money to account from business side
 - [x] Update business description as notice board
+- [ ] Register Customer Online
+- [ ] Register Business Online
 
 
 
