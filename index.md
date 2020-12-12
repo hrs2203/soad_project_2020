@@ -1,5 +1,68 @@
 # API For Businesses to use
 
+## register_business
+<table>
+    <tr>
+        <td>URL</td>
+        <td>{{url}}/api/register_business</td>
+    </tr>
+    <tr>
+        <td>METHOD</td>
+        <td>POST</td>
+    </tr>
+</table>
+
+REQUEST BODY:
+```json
+{
+    "email" : "email@e.com",
+    "businessName" : "business4",
+    "password" : "hrishabh1",
+    "description" : "dome sdad",
+    "serviceCharge" : 30
+}
+```
+RESPONSE BODY:
+```json
+{
+    "id": 4,
+    "balance": 1000,
+    "serviceCharge": 30,
+    "businessDescription": "dome sdad",
+    "userModel": 9
+}
+```
+
+## register_customer
+<table>
+    <tr>
+        <td>URL</td>
+        <td>{{url}}/api/register_customer</td>
+    </tr>
+    <tr>
+        <td>METHOD</td>
+        <td>POST</td>
+    </tr>
+</table>
+
+REQUEST BODY:
+```json
+{
+    "email" : "cust@g.com",
+    "customerName" : "user5",
+    "password" : "hrishabh1"
+}
+```
+RESPONSE BODY:
+```json
+{
+    "id": 5,
+    "balance": 1000,
+    "userModel": 8
+}
+```
+
+
 ## generate_new_image
 <table>
     <tr>
