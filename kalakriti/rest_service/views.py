@@ -284,6 +284,8 @@ def placeOrder(request):
                         totalAmount=tempResponse["totalAmount"],
                     )
                     tempOrder.save()
+                    tempResponse["orderId"] = tempOrder.id
+                    tempResponse["message"] = "Order placed."
 
             except:
                 tempResponse["paymentStatus"] = False
@@ -292,7 +294,7 @@ def placeOrder(request):
                 tempResponse["businessId"] = order["businessId"]
                 tempResponse["productId"] = order["productId"]
                 tempResponse["customerId"] = order["customerId"]
-                tempResponse["orderId"] = tempOrder.id
+                tempResponse["orderId"] = "None"
                 tempResponse["message"] = "Order Not placed, Insufficient Balance"
 
             ## ==========================
