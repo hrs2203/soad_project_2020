@@ -469,7 +469,7 @@ def businessStats(request):
                 "businessDetail": tempBusiness.data,
                 "totalSalesCount": orderCount,
                 "businessSalesCount": len(tempbusinessOrder.data),
-                "businessSales": tempbusinessOrder.data,                
+                "businessSales": tempbusinessOrder.data,
             }
         )
 
@@ -540,6 +540,123 @@ def uploadProduct(request):
                 "newImageUrl": f"/static/{tempFileName}",
                 "productId": tempProduct.id,
                 "productDetail": tempProductDetail.data,
+            }
+        )
+
+
+@csrf_exempt
+def updateBusinessDiscription(request):
+    """
+    Edit you business description and make it a notice board
+
+    - request body
+    ```
+    {
+        "businessId" : 5,
+        "password": "pwd123",
+        "description" : "new description"
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "businessId" : 5,
+        "businessDetail": <object>
+    }
+    ```
+    """
+
+    if request.method == "POST":
+        reqData = json.loads(request.body)
+
+        businessId = reqData["businessId"]
+        password = reqData["password"]
+        newDesc = reqData["description"]
+
+        BusinessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(BusinessObjList) == 0:
+            return JsonResponse({"message": "Invalid Business Id"})
+
+        BusinessObj = BusinessObjList[0]
+        if not BusinessObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Business credentials"})
+
+        BusinessObj.businessDescription = newDesc
+        BusinessObj.save()
+
+        tempBusiness = BusinessModelSerializer(BusinessObj)
+
+        return JsonResponse(
+            {"businessId": businessId, "businessDetail": tempBusiness.data}
+        )
+
+
+@csrf_exempt
+def addMoneyToUser(request):
+    """
+    Add Credit to user account from business account
+
+    - request body
+    ```
+    {
+        "businessId" : 5,
+        "password": "pwd123",
+        "customerId": 4,
+        "amount" : 10
+    }
+    ```
+
+    - response body
+    ```
+    {
+        "businessId" : 5,
+        "businessBalance": 1213,
+        "customerId" : 4,
+        "customerBalance": 1213,
+    }
+    ```
+    """
+
+    if request.method == "POST":
+        reqData = json.loads(request.body)
+
+        businessId = reqData["businessId"]
+        password = reqData["password"]
+        customerId = reqData["customerId"]
+        try:
+            amount = int(reqData["amount"])
+        except:
+            amount = 0
+
+        BusinessObjList = BusinessModel.objects.filter(id=businessId)
+        if len(BusinessObjList) == 0:
+            return JsonResponse({"message": "Invalid Business Id"})
+
+        CustomerObjList = CustomerModel.objects.filter(id=customerId)
+        if len(CustomerObjList) == 0:
+            return JsonResponse({"message": "Invalid Customer Id"})
+
+        BusinessObj = BusinessObjList[0]
+        if not BusinessObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Business credentials"})
+
+        CustomerObj = CustomerObjList[0]
+        if not CustomerObj.userModel.check_password(password):
+            return JsonResponse({"message": "Invalid Customer credentials"})
+
+        BusinessObj.balance -= amount
+        BusinessObj.save()
+
+        CustomerObj.balance += amount
+        CustomerObj.save()
+
+        return JsonResponse(
+            {
+                "businessId": BusinessObj.id,
+                "businessBalance": BusinessObj.balance,
+                "customerId": CustomerObj.id,
+                "customerBalance": CustomerObj.balance,
             }
         )
 

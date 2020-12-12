@@ -14,5 +14,10 @@ urlpatterns = [
     path("customer_detail", views.customerDetail, name="customerDetail"),
     path("business_detail", views.businessDetail, name="businessDetail"),
     path("business_stats", views.businessStats, name="businessStats"),
-    
+    path("add_credit_to_customer", views.addMoneyToUser, name="addCreditToUser"),
+    path(
+        "update_business_detail",
+        views.updateBusinessDiscription,
+        name="updateBusinessDetail",
+    ),
 ]

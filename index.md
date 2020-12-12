@@ -4,7 +4,7 @@
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/generate_new_image</td>
+        <td>url/api/generate_new_image</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -31,7 +31,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/place_order</td>
+        <td>url/api/place_order</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -88,7 +88,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/confirm_order</td>
+        <td>url/api/confirm_order</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -117,7 +117,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/customer_detail</td>
+        <td>url/api/customer_detail</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -147,7 +147,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td> {{url}}/api/business_detail</td>
+        <td> url/api/business_detail</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -179,7 +179,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/business_stats</td>
+        <td>url/api/business_stats</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -217,5 +217,70 @@ RESPONSE BODY:
             "businessModelLink": 7
         }
     ]
+}
+```
+
+## update_business_detail
+<table>
+    <tr>
+        <td>URL</td>
+        <td>url/api/update_business_detail</td>
+    </tr>
+    <tr>
+        <td>METHOD</td>
+        <td>POST</td>
+    </tr>
+</table>
+
+REQUEST BODY:
+```json
+{
+    "businessId" : 6,
+    "password": "pwd123",
+    "description" : "buy and get 2 credit free"
+}
+```
+RESPONSE BODY:
+```json
+{
+    "businessId": 6,
+    "businessDetail": {
+        "id": 6,
+        "balance": 1540,
+        "serviceCharge": 20,
+        "businessDescription": "buy and get 2 credit free",
+        "userModel": 11
+    }
+}
+```
+
+## add_credit_to_customer
+<table>
+    <tr>
+        <td>URL</td>
+        <td>url/api/add_credit_to_customer</td>
+    </tr>
+    <tr>
+        <td>METHOD</td>
+        <td>POST</td>
+    </tr>
+</table>
+
+REQUEST BODY:
+```json
+{
+    "businessId" : 6,
+    "password": "pwd123",
+    "customerId": 3,
+    "amount" : 10
+}
+```
+RESPONSE BODY:
+```json
+{
+    "businessId": 6,
+    "businessBalance": 1510,
+    "customerId": 3,
+    "customerBalance": 1520
 }
 ```

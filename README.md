@@ -15,7 +15,8 @@ TODO LIST :
 - [x] Get your business detail
 - [x] Get your user account detail
 - [x] Stats of you sales compared to others.
-- [ ] API to add money to account. Transactions happen on our platform
+- [x] API to add money to account from business side
+- [x] Update business description as notice board
 
 
 
