@@ -4,7 +4,7 @@
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/register_business</td>
+        <td>url/api/register_business</td>
     </tr>
     <tr>
         <td>METHOD</td>
@@ -37,7 +37,7 @@ RESPONSE BODY:
 <table>
     <tr>
         <td>URL</td>
-        <td>{{url}}/api/register_customer</td>
+        <td>url/api/register_customer</td>
     </tr>
     <tr>
         <td>METHOD</td>
