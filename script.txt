@@ -1,0 +1,9 @@
+Hemant - https://github.com/hrs2203/soad_project_2020/blob/main/kalakriti/customer_block/template/business_page.html
+After first review, we made dynamic page.
+I worked on jinja with business page.
+And we integrated with django rest services.
+
+Harshini - https://github.com/hrs2203/soad_project_2020/blob/main/kalakriti/customer_block/template/design_list_page.html
+After getting products from all business, I designed this product page.
+I worked with Hrishabh on this with jinja templates.
+This is also one of rest service we provide.
