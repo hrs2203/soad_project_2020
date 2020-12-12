@@ -104,7 +104,7 @@
                     <thead>
                         <tr>
                             <th>Order Id</th>
-                            <th>Dealer Id</th>
+                            <th>Customer Id</th>
                             <th>Product Id</th>
                             <th>Payment Amount</th>
                             <th>Payment Status</th>
@@ -116,7 +116,7 @@
                         {% for order in orderHistory %}
                         <tr>
                             <td>{{ order.id }}</td>
-                            <td>{{ order.businessModelLink.id }}</td>
+                            <td>{{ order.userModelLink.id }}</td>
                             <td>{{ order.productModelLink.id }}</td>
                             <td>{{ order.totalAmount }}</td>
                             <td>{{ order.paymentStatus }}</td>
